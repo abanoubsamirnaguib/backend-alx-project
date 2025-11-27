@@ -167,6 +167,16 @@ CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000'
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in CORS_ALLOWED_ORIGINS]
 CORS_ALLOW_CREDENTIALS = True
 
+# CSRF Trusted Origins (for Django admin and forms)
+CSRF_TRUSTED_ORIGINS = [
+    'https://backend-alx-project-production.up.railway.app',
+    'https://backend-alx-project.fly.dev',
+    'https://alx-project-nexus-ecommerce.fly.dev',
+    'https://web-production-af360.up.railway.app',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
 # REST Framework
 from datetime import timedelta
 
