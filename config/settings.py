@@ -88,33 +88,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# Force PostgreSQL on Railway if we detect Railway environment
-if os.getenv('RAILWAY_ENVIRONMENT') or os.getenv('RAILWAY_PROJECT_ID') or 'railway' in os.getenv('RAILWAY_PRIVATE_DOMAIN', ''):
-    # Railway deployment - force PostgreSQL
+# Check if we have DATABASE_URL first (most reliable for Railway)
+if 'DATABASE_URL' in os.environ:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('PGDATABASE', 'railway'),
-            'USER': os.getenv('PGUSER', 'postgres'),
-            'PASSWORD': os.getenv('PGPASSWORD', 'ZlljLglYwndCshIjayOSabeSfBwqBMeI'),
-            'HOST': os.getenv('PGHOST', 'postgres.railway.internal'),
-            'PORT': os.getenv('PGPORT', '5432'),
-            'OPTIONS': {
-                'sslmode': 'require',
-            },
-        }
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
-    print(f"Railway detected: Using PostgreSQL database: {os.getenv('PGDATABASE', 'railway')} on {os.getenv('PGHOST', 'postgres.railway.internal')}")
-# For Railway - check if PostgreSQL environment variables are present
-elif os.getenv('PGDATABASE') and os.getenv('PGUSER') and os.getenv('PGPASSWORD'):
-    # Use Railway PostgreSQL configuration
+    print("Using DATABASE_URL for database configuration")
+# Check for individual PostgreSQL environment variables
+elif os.getenv('PGDATABASE') and os.getenv('PGUSER') and os.getenv('PGPASSWORD') and os.getenv('PGHOST'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('PGDATABASE'),
             'USER': os.getenv('PGUSER'),
             'PASSWORD': os.getenv('PGPASSWORD'),
-            'HOST': os.getenv('PGHOST', 'localhost'),
+            'HOST': os.getenv('PGHOST'),
             'PORT': os.getenv('PGPORT', '5432'),
             'OPTIONS': {
                 'sslmode': 'require',
@@ -122,22 +110,16 @@ elif os.getenv('PGDATABASE') and os.getenv('PGUSER') and os.getenv('PGPASSWORD')
         }
     }
     print(f"Using PostgreSQL database: {os.getenv('PGDATABASE')} on {os.getenv('PGHOST')}")
-# Check if we have DATABASE_URL (for Heroku-style deployments)
-elif 'DATABASE_URL' in os.environ:
-    DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
-    }
-    print("Using DATABASE_URL for database configuration")
+# Fallback configurations
 else:
-    # Fallback to manual configuration or SQLite
     DB_ENGINE = os.getenv('DB_ENGINE', 'sqlite')
     if DB_ENGINE == 'postgresql':
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.postgresql',
                 'NAME': os.getenv('POSTGRES_DB', 'custom_food_builder'),
-                'USER': os.getenv('POSTGRES_USER', 'odoo17'),
-                'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'odoo'),
+                'USER': os.getenv('POSTGRES_USER', 'postgres'),
+                'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
                 'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
                 'PORT': os.getenv('POSTGRES_PORT', '5432'),
             }
