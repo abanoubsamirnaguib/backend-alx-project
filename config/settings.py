@@ -27,6 +27,7 @@ if not DEBUG:
     ALLOWED_HOSTS.extend([
         '.fly.dev',  # Allow all fly.dev subdomains
         'alx-project-nexus-ecommerce.fly.dev',  # Fly.io app domain
+        'backend-alx-project.fly.dev',  # New Fly.io app domain
         '.up.railway.app',  # Allow all railway.app subdomains
         'web-production-af360.up.railway.app',  # Railway app domain
         '.railway.app',  # Additional railway domains
