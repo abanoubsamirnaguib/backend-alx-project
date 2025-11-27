@@ -30,6 +30,7 @@ if not DEBUG:
         'backend-alx-project.fly.dev',  # New Fly.io app domain
         '.up.railway.app',  # Allow all railway.app subdomains
         'web-production-af360.up.railway.app',  # Railway app domain
+        'backend-alx-project-production.up.railway.app',  # New Railway app domain
         '.railway.app',  # Additional railway domains
     ])
 
