@@ -22,17 +22,16 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS]
 
-# Add deployment platform domains
-if not DEBUG:
-    ALLOWED_HOSTS.extend([
-        '.fly.dev',  # Allow all fly.dev subdomains
-        'alx-project-nexus-ecommerce.fly.dev',  # Fly.io app domain
-        'backend-alx-project.fly.dev',  # New Fly.io app domain
-        '.up.railway.app',  # Allow all railway.app subdomains
-        'web-production-af360.up.railway.app',  # Railway app domain
-        'backend-alx-project-production.up.railway.app',  # New Railway app domain
-        '.railway.app',  # Additional railway domains
-    ])
+# Add deployment platform domains (always include these for production deployments)
+ALLOWED_HOSTS.extend([
+    '.fly.dev',  # Allow all fly.dev subdomains
+    'alx-project-nexus-ecommerce.fly.dev',  # Fly.io app domain
+    'backend-alx-project.fly.dev',  # New Fly.io app domain
+    '.up.railway.app',  # Allow all railway.app subdomains
+    'web-production-af360.up.railway.app',  # Railway app domain
+    'backend-alx-project-production.up.railway.app',  # New Railway app domain
+    '.railway.app',  # Additional railway domains
+])
 
 
 # Application definition
