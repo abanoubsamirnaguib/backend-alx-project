@@ -16,7 +16,7 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-custom-food-builder-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Fly.io specific host configuration
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
@@ -88,25 +88,32 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# Check if we have DATABASE_URL (for Railway/Heroku-style deployments)
-if 'DATABASE_URL' in os.environ:
-    DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
-    }
-# Check if we have PostgreSQL environment variables (Railway style)
-elif all(key in os.environ for key in ['PGDATABASE', 'PGUSER', 'PGPASSWORD', 'PGHOST']):
+# For Railway - check if PostgreSQL environment variables are present
+if os.getenv('PGDATABASE') and os.getenv('PGUSER') and os.getenv('PGPASSWORD'):
+    # Use Railway PostgreSQL configuration
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('PGDATABASE'),
             'USER': os.getenv('PGUSER'),
             'PASSWORD': os.getenv('PGPASSWORD'),
-            'HOST': os.getenv('PGHOST'),
+            'HOST': os.getenv('PGHOST', 'localhost'),
             'PORT': os.getenv('PGPORT', '5432'),
+            'OPTIONS': {
+                'sslmode': 'require',
+            },
         }
     }
+    print(f"Using PostgreSQL database: {os.getenv('PGDATABASE')} on {os.getenv('PGHOST')}")
+# Check if we have DATABASE_URL (for Heroku-style deployments)
+elif 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+    print("Using DATABASE_URL for database configuration")
 else:
-    DB_ENGINE = os.getenv('DB_ENGINE', 'sqlite')  # default to sqlite unless explicitly set
+    # Fallback to manual configuration or SQLite
+    DB_ENGINE = os.getenv('DB_ENGINE', 'sqlite')
     if DB_ENGINE == 'postgresql':
         DATABASES = {
             'default': {
@@ -118,6 +125,7 @@ else:
                 'PORT': os.getenv('POSTGRES_PORT', '5432'),
             }
         }
+        print("Using manual PostgreSQL configuration")
     else:
         DATABASES = {
             'default': {
@@ -125,6 +133,7 @@ else:
                 'NAME': BASE_DIR / 'db.sqlite3',
             }
         }
+        print("Using SQLite database")
 
 
 # Password validation
