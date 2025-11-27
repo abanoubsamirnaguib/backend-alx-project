@@ -88,9 +88,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Check if we have DATABASE_URL (for Railway/Heroku-style deployments)
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+# Check if we have PostgreSQL environment variables (Railway style)
+elif all(key in os.environ for key in ['PGDATABASE', 'PGUSER', 'PGPASSWORD', 'PGHOST']):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('PGDATABASE'),
+            'USER': os.getenv('PGUSER'),
+            'PASSWORD': os.getenv('PGPASSWORD'),
+            'HOST': os.getenv('PGHOST'),
+            'PORT': os.getenv('PGPORT', '5432'),
+        }
     }
 else:
     DB_ENGINE = os.getenv('DB_ENGINE', 'sqlite')  # default to sqlite unless explicitly set
