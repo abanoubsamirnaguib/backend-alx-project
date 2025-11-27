@@ -88,8 +88,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Force PostgreSQL on Railway if we detect Railway environment
+if os.getenv('RAILWAY_ENVIRONMENT') or os.getenv('RAILWAY_PROJECT_ID') or 'railway' in os.getenv('RAILWAY_PRIVATE_DOMAIN', ''):
+    # Railway deployment - force PostgreSQL
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('PGDATABASE', 'railway'),
+            'USER': os.getenv('PGUSER', 'postgres'),
+            'PASSWORD': os.getenv('PGPASSWORD', 'ZlljLglYwndCshIjayOSabeSfBwqBMeI'),
+            'HOST': os.getenv('PGHOST', 'postgres.railway.internal'),
+            'PORT': os.getenv('PGPORT', '5432'),
+            'OPTIONS': {
+                'sslmode': 'require',
+            },
+        }
+    }
+    print(f"Railway detected: Using PostgreSQL database: {os.getenv('PGDATABASE', 'railway')} on {os.getenv('PGHOST', 'postgres.railway.internal')}")
 # For Railway - check if PostgreSQL environment variables are present
-if os.getenv('PGDATABASE') and os.getenv('PGUSER') and os.getenv('PGPASSWORD'):
+elif os.getenv('PGDATABASE') and os.getenv('PGUSER') and os.getenv('PGPASSWORD'):
     # Use Railway PostgreSQL configuration
     DATABASES = {
         'default': {
