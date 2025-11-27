@@ -1,0 +1,66 @@
+# Git files
+.git
+.gitignore
+
+# Python cache files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.pytest_cache
+nosetests.xml
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Node modules (if any)
+node_modules/
+
+# Development files
+.env
+.env.local
+.env.development
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database files (for development)
+*.sqlite3
+
+# Log files
+*.log
+
+# Static files (will be collected during build)
+staticfiles/
+
+# Media files (should be in external storage for production)
+media/
+
+# Documentation
+README.md
+*.md
+
+# Fly.io deployment files
+fly.toml
+
+# Other deployment files
+Procfile
+railway.json
+railway.toml
+run_server.bat
