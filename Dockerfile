@@ -23,8 +23,11 @@ RUN pip install --upgrade pip && \
 # Copy project
 COPY . .
 
-# Create staticfiles directory
-RUN mkdir -p /app/staticfiles
+# Create staticfiles and media directories
+RUN mkdir -p /app/staticfiles /app/media/categories /app/media/food_types /app/media/ingredients
+
+# Set proper permissions for media files
+RUN chmod -R 755 /app/media
 
 # Make entrypoint executable
 RUN chmod +x entrypoint.sh
