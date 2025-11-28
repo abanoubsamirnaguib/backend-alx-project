@@ -23,11 +23,14 @@ RUN pip install --upgrade pip && \
 # Copy project
 COPY . .
 
+# Create staticfiles directory
+RUN mkdir -p /app/staticfiles
+
 # Make entrypoint executable
 RUN chmod +x entrypoint.sh
 
 # Expose port
-EXPOSE 8000
+EXPOSE $PORT
 
 # Start the application with entrypoint
 CMD ["./entrypoint.sh", "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
