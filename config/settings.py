@@ -186,7 +186,33 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'False') == 'True'
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in CORS_ALLOWED_ORIGINS]
+
+# Add production frontend domains
+CORS_ALLOWED_ORIGINS.extend([
+    'https://frontend-alx-project-2-fkiq6shrx-abanoubsamirnaguibs-projects.vercel.app',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:5173',  # Vite dev server
+    'http://127.0.0.1:5173',  # Vite dev server
+])
+
+# Remove duplicates and empty strings
+CORS_ALLOWED_ORIGINS = list(set(filter(None, CORS_ALLOWED_ORIGINS)))
+
 CORS_ALLOW_CREDENTIALS = True
+
+# Additional CORS headers for better compatibility
+CORS_ALLOWED_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 # CSRF Trusted Origins (for Django admin and forms)
 CSRF_TRUSTED_ORIGINS = [
@@ -194,8 +220,11 @@ CSRF_TRUSTED_ORIGINS = [
     'https://backend-alx-project.fly.dev',
     'https://alx-project-nexus-ecommerce.fly.dev',
     'https://web-production-af360.up.railway.app',
+    'https://frontend-alx-project-2-fkiq6shrx-abanoubsamirnaguibs-projects.vercel.app',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
 ]
 
 # REST Framework
