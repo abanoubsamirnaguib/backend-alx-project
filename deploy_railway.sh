@@ -35,7 +35,7 @@ fi
 railway variables set ALLOWED_HOSTS="backend-alx-project-production.up.railway.app,.railway.app,.up.railway.app,localhost,127.0.0.1"
 
 # Set CORS origins
-railway variables set CORS_ALLOWED_ORIGINS="https://frontend-alx-project-2-fkiq6shrx-abanoubsamirnaguibs-projects.vercel.app,http://localhost:3000,http://127.0.0.1:3000"
+railway variables set CORS_ALLOWED_ORIGINS="https://frontend-alx-project-2-fkiq6shrx-abanoubsamirnaguibs-projects.vercel.app,https://frontend-alx-project-2.vercel.app,http://localhost:3000,http://127.0.0.1:3000"
 
 # Deploy
 echo "🚀 Deploying..."

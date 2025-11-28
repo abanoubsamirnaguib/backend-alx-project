@@ -75,7 +75,7 @@ echo 1. Check app status: fly status --app alx-project-nexus-ecommerce
 echo 2. View logs: fly logs --app alx-project-nexus-ecommerce
 echo 3. Open app: fly open --app alx-project-nexus-ecommerce
 echo 4. Set CORS origins if needed:
-echo    fly secrets set CORS_ALLOWED_ORIGINS="https://your-frontend-domain.com" --app alx-project-nexus-ecommerce
+echo    fly secrets set CORS_ALLOWED_ORIGINS="https://frontend-alx-project-2.vercel.app,https://your-frontend-domain.com" --app alx-project-nexus-ecommerce
 echo.
 echo 🌐 Your app will be available at: https://alx-project-nexus-ecommerce.fly.dev
 pause

@@ -12,6 +12,7 @@ def update_railway_env():
     # The domains that should be allowed
     frontend_domains = [
         'https://frontend-alx-project-2-fkiq6shrx-abanoubsamirnaguibs-projects.vercel.app',
+        'https://frontend-alx-project-2.vercel.app',
         'http://localhost:3000',
         'http://127.0.0.1:3000',
         'http://localhost:5173',

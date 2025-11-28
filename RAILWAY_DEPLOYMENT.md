@@ -64,7 +64,7 @@ DATABASE_URL=postgresql://...
 ALLOWED_HOSTS=backend-alx-project-production.up.railway.app,.railway.app,.up.railway.app
 
 # CORS
-CORS_ALLOWED_ORIGINS=https://your-frontend-domain.com,http://localhost:3000
+CORS_ALLOWED_ORIGINS=https://frontend-alx-project-2.vercel.app,https://your-frontend-domain.com,http://localhost:3000
 
 # Superuser (optional)
 DJANGO_SUPERUSER_USERNAME=admin
