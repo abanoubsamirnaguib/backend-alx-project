@@ -228,6 +228,7 @@ CORS_ALLOWED_ORIGINS.extend([
     'http://127.0.0.1:3000',
     'http://localhost:5173',  # Vite dev server
     'http://127.0.0.1:5173',  # Vite dev server
+    'https://*.vercel.app',  # Allow all Vercel deployments
 ])
 
 # Remove duplicates and empty strings
