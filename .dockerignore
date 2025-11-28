@@ -49,9 +49,6 @@ Thumbs.db
 # Static files (will be collected during build)
 staticfiles/
 
-# Media files (should be in external storage for production)
-media/
-
 # Documentation
 README.md
 *.md

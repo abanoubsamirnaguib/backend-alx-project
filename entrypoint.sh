@@ -21,5 +21,5 @@ echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear
 
 echo "Starting server on port $PORT..."
-# Replace the bind parameter with the correct port
-exec "${@/0.0.0.0:8000/0.0.0.0:$PORT}"
+# Start gunicorn with correct port binding
+exec gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120

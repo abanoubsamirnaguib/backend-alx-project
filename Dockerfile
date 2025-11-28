@@ -29,8 +29,8 @@ RUN mkdir -p /app/staticfiles
 # Make entrypoint executable
 RUN chmod +x entrypoint.sh
 
-# Expose port
-EXPOSE $PORT
+# Expose port (Railway uses PORT environment variable)
+EXPOSE 8000
 
 # Start the application with entrypoint
-CMD ["./entrypoint.sh", "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["./entrypoint.sh"]

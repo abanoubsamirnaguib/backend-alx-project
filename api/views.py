@@ -84,6 +84,26 @@ def user_profile(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def health_check(request):
-    """Health check endpoint for Fly.io deployment monitoring."""
-    return Response({'status': 'healthy', 'service': 'alx-nexus-ecommerce'}, status=status.HTTP_200_OK)
+    """Health check endpoint for deployment monitoring."""
+    import django
+    from django.db import connection
+    from django.conf import settings
+    
+    try:
+        # Test database connection
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+        
+        db_status = "connected"
+    except Exception as e:
+        db_status = f"error: {str(e)}"
+    
+    return Response({
+        'status': 'healthy',
+        'service': 'alx-nexus-ecommerce',
+        'django_version': django.get_version(),
+        'debug': settings.DEBUG,
+        'database': db_status,
+        'allowed_hosts': settings.ALLOWED_HOSTS[:3],  # Show first 3 for security
+    }, status=status.HTTP_200_OK)
 

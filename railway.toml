@@ -2,6 +2,6 @@
 builder = "dockerfile"
 
 [deploy]
-startCommand = "gunicorn config.wsgi:application"
-restartPolicyType = "on_failure"
+startCommand = "./entrypoint.sh"
+restartPolicyType = "on_failure" 
 restartPolicyMaxRetries = 5
